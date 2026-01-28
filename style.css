@@ -42,6 +42,7 @@ body {
     min-height: 100vh;
     transition: background-color 0.3s ease;
     overflow-x: hidden;
+    width: 100%;
 }
 
 .container {
@@ -76,16 +77,44 @@ h1 {
     padding: var(--spacing-lg);
     box-shadow: var(--shadow-lg);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
 }
 
 .card:hover {
     box-shadow: var(--shadow-glow);
 }
 
+.filter-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.price-range-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    flex-grow: 1;
+}
+
+.price-inputs {
+    display: flex;
+    gap: 0.5rem;
+    flex-grow: 1;
+}
+
+.price-inputs input {
+    width: 0;
+    flex-grow: 1;
+    min-width: 60px;
+}
+
 /* Dashboard Grid */
 .dashboard-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 1.5rem;
     margin-bottom: 2rem;
 }
@@ -300,6 +329,11 @@ select:focus {
     transform: scale(1.1);
 }
 
+.theme-toggle ion-icon {
+    font-size: 1.25rem;
+    pointer-events: none;
+}
+
 /* Animations */
 @keyframes slideIn {
     from {
@@ -314,6 +348,11 @@ select:focus {
 }
 
 .transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
     animation: slideIn 0.3s ease-out forwards;
 }
 

@@ -296,7 +296,7 @@ const renderTransactions = () => {
     }
 
     transactionListEl.innerHTML = filtered.map(t => `
-    <div class="transaction-item" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border);">
+    <div class="transaction-item">
       <div style="display: flex; align-items: center; gap: 1rem;">
         <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(56, 189, 248, 0.1); display: flex; align-items: center; justify-content: center; color: var(--accent-primary);">
           <ion-icon name="${getCategoryIcon(t.category)}"></ion-icon>

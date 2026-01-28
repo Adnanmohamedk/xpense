@@ -23,11 +23,11 @@
             </div>
             <div class="header-actions" style="display: flex; gap: 0.5rem;">
                 <button class="theme-toggle" id="export-btn" title="Export Data">
-                    <ion-icon name="download-outline"></ion-icon>
+                    <ion-icon name="open-outline"></ion-icon>
                     <span style="display:none">Export</span>
                 </button>
                 <button class="theme-toggle" id="import-btn" title="Import Data">
-                    <ion-icon name="upload-outline"></ion-icon>
+                    <ion-icon name="download-outline"></ion-icon>
                     <span style="display:none">Import</span>
                 </button>
                 <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
@@ -59,9 +59,9 @@
             <div class="content-left">
                 <!-- Filters Section -->
                 <section class="card filters-card" style="margin-bottom: 2rem;">
-                    <div class="input-group" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                    <div class="input-group filter-row">
                         <input type="text" id="search-input" placeholder="Search transactions...">
-                        <select id="category-filter" style="width: 200px;">
+                        <select id="category-filter">
                             <option value="all">All Categories</option>
                             <option value="food">Food & Dining</option>
                             <option value="rent">Rent & Bills</option>
@@ -71,7 +71,7 @@
                             <option value="other">Other</option>
                         </select>
                     </div>
-                    <div class="input-group" style="display: flex; gap: 1rem; margin-bottom: 0;">
+                    <div class="input-group filter-row">
                         <select id="date-filter">
                             <option value="all">All Time</option>
                             <option value="today">Today</option>
@@ -79,11 +79,12 @@
                             <option value="month">This Month</option>
                             <option value="year">This Year</option>
                         </select>
-                        <div class="price-range-container"
-                            style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
-                            <span>Price Range:</span>
-                            <input type="number" id="min-price" placeholder="Min" style="width: 100px;">
-                            <input type="number" id="max-price" placeholder="Max" style="width: 100px;">
+                        <div class="price-range-container">
+                            <span class="price-label">Price Range:</span>
+                            <div class="price-inputs">
+                                <input type="number" id="min-price" placeholder="Min">
+                                <input type="number" id="max-price" placeholder="Max">
+                            </div>
                         </div>
                     </div>
                 </section>
