@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XpenseTracker Pro | Advanced Personal Finance</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Ionicons for icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1>XpenseTracker <span style="color: var(--text-secondary); font-weight: 400;">Pro</span></h1>
+            </div>
+            <div class="header-actions" style="display: flex; gap: 0.5rem;">
+                <button class="theme-toggle" id="export-btn" title="Export Data">
+                    <ion-icon name="download-outline"></ion-icon>
+                    <span style="display:none">Export</span>
+                </button>
+                <button class="theme-toggle" id="import-btn" title="Import Data">
+                    <ion-icon name="upload-outline"></ion-icon>
+                    <span style="display:none">Import</span>
+                </button>
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
+                    <ion-icon name="moon-outline"></ion-icon>
+                    <span style="display:none">Mode</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Stats -->
+        <div class="dashboard-grid">
+            <div class="card balance-card">
+                <div class="stat-label">Total Balance</div>
+                <div class="stat-value" id="total-balance">$0.00</div>
+            </div>
+            <div class="card">
+                <div class="stat-label" style="color: var(--income);">Income</div>
+                <div class="stat-value" id="total-income" style="color: var(--income);">$0.00</div>
+            </div>
+            <div class="card">
+                <div class="stat-label" style="color: var(--expense);">Expenses</div>
+                <div class="stat-value" id="total-expense" style="color: var(--expense);">$0.00</div>
+            </div>
+        </div>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Left Column: Transactions & Filters -->
+            <div class="content-left">
+                <!-- Filters Section -->
+                <section class="card filters-card" style="margin-bottom: 2rem;">
+                    <div class="input-group" style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <input type="text" id="search-input" placeholder="Search transactions...">
+                        <select id="category-filter" style="width: 200px;">
+                            <option value="all">All Categories</option>
+                            <option value="food">Food & Dining</option>
+                            <option value="rent">Rent & Bills</option>
+                            <option value="transport">Transport</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="entertainment">Entertainment</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="input-group" style="display: flex; gap: 1rem; margin-bottom: 0;">
+                        <select id="date-filter">
+                            <option value="all">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="year">This Year</option>
+                        </select>
+                        <div
+                            style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.875rem;">
+                            <span>Price Range:</span>
+                            <input type="number" id="min-price" placeholder="Min" style="width: 100px;">
+                            <input type="number" id="max-price" placeholder="Max" style="width: 100px;">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Transaction List -->
+                <section class="card list-card">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <h2 style="font-size: 1.25rem;">Transaction History</h2>
+                        <div id="undo-container"></div>
+                    </div>
+                    <div id="transaction-list" class="transaction-list">
+                        <!-- Items injected here -->
+                        <div class="empty-state"
+                            style="text-align: center; padding: 3rem 0; color: var(--text-secondary);">
+                            <ion-icon name="receipt-outline"
+                                style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></ion-icon>
+                            <p>No transactions yet. Add one to get started!</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Form & Charts -->
+            <aside class="content-right">
+                <!-- Add Transaction Form -->
+                <section class="card form-card" style="margin-bottom: 2rem;">
+                    <h2 style="font-size: 1.25rem; margin-bottom: 1.5rem;">New Transaction</h2>
+                    <form id="transaction-form">
+                        <div class="input-group">
+                            <label class="stat-label">Description</label>
+                            <input type="text" id="description" placeholder="e.g., Grocery Shopping" required>
+                        </div>
+                        <div class="input-group">
+                            <label class="stat-label">Amount</label>
+                            <input type="number" id="amount" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="input-group">
+                            <label class="stat-label">Type</label>
+                            <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="radio" name="type" value="expense" checked style="width: auto;">
+                                    Expense
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                    <input type="radio" name="type" value="income" style="width: auto;"> Income
+                                </label>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label class="stat-label">Category</label>
+                            <select id="category" required>
+                                <option value="food">Food & Dining</option>
+                                <option value="rent">Rent & Bills</option>
+                                <option value="transport">Transport</option>
+                                <option value="shopping">Shopping</option>
+                                <option value="entertainment">Entertainment</option>
+                                <option value="salary">Salary</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Add
+                            Transaction</button>
+                    </form>
+                </section>
+
+                <!-- Visualization Card -->
+                <section class="card chart-card" style="margin-bottom: 2rem;">
+                    <h2 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Spending Insights</h2>
+                    <div id="chart-container"
+                        style="height: 200px; display: flex; align-items: center; justify-content: center; position: relative;">
+                        <!-- Custom SVG Chart will be injected here -->
+                    </div>
+                </section>
+
+                <!-- Monthly Summary Card -->
+                <section class="card summary-card">
+                    <h2 style="font-size: 1.25rem; margin-bottom: 1.5rem;">Historical Trends</h2>
+                    <div id="monthly-summary" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <!-- Summary grouped by month will be injected here -->
+                    </div>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>
